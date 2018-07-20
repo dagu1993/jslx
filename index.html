@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header></header>
+    <main>
+        <div class="wrapper" id="div1">
+
+        </div>
+    </main>
+    <footer></footer>
+<script>
+    var keys = {
+        '0' : {0:'q',1:'w',2:'e',3:'r',4:'t',5:'y',6:'u',7:'i',8:'o',9:'p',length:10},
+        '1' : {0:'a',1:'s',2:'d',3:'f',4:'g',5:'h',6:'j',7:'k',8:'l',length:9},
+        '2' : {0:'z',1:'x',2:'c',3:'v',4:'b',5:'n',6:'m',length:7},
+        length:3
+    }
+    var hash = {
+        'q': 'qq.com', 'w': 'weibo.com', 'e': 'ele.me', 'r': 'renren.com', 't': 'tianya.com', 'y': 'youtube.com', 'u': 'uc.com' , 'i': 'iqiyi.com', 'o': 'opera.com', 'p': undefined, 'a': 'acfun.tv', 's': 'sohu.com', 'z': 'zhihu.com', 'm': 'www.mcdonalds.com.cn'
+    }
+
+    //下面三行是从localstorage中取出zzz对的的hash
+    var hashInLocalStorage = JSON.parse(localStorage.getItem('zzz') || 'null')
+    if(hashInLocalStorage){
+        hash = hashInLocalStorage
+    }
+
+       index=0
+       while(index< keys['length']){             //设定一个index为0，keys的长度是3，也就是index只有0 1 2 3次  创建3次div 
+          divx=document.createElement('div')     //创建一个div给x
+          divx.className = 'row'
+          row = keys[index]   //index取值是0 1 2  也就相当于 keys[0 1 2]  第一个数组  第二个数组 第三个数组
+          index2=0
+          while(index2< row['length']){         //这是让 每次都是小于三个数组的长度，给每行添加不同个数的kbd         
+            kbdx=document.createElement('kbd')   //创建一个kbd给y
+            span = document.createElement('span')
+            span.textContent = row[index2]      //row[index2]每次第一次  0~9  第二次0~8 第三次 0~7  直接将字填到每行kbd中。
+            span.className = 'text'
+            kbdx.className = 'key'       //给kbd加个class
+            buttonx = document.createElement('button')
+            buttonx.textContent = '编辑'
+            buttonx.id = row[index2]
+
+
+            div1.appendChild(divx)      //给main（也就是id=div1） 创建一个儿子（appendChild） x
+            divx.appendChild(kbdx) 
+            kbdx.appendChild(buttonx)
+            kbdx.appendChild(span)
+
+            img = document.createElement('img')
+            if(hash[row[index2]]){
+                img.src = 'http://' + hash[row[index2]] + '/favicon.ico'
+            }else{
+                img.src = 'http://i.loli.net/2017/11/10/5a05afbc5e183.png'
+            }
+            img.onerror = function(xxx){
+              xxx.target.src = 'http://i.loli.net/2017/11/10/5a05afbc5e183.png'
+            } 
+
+       
+            kbdx.appendChild(img)
+            buttonx.onclick = function(xzkjcnxlkcjlk){
+              console.log('我被点击了')
+              key =  xzkjcnxlkcjlk.target.id   //id是q e r t   target目标，点击的目标
+              x = prompt('给我一个网址')      //将取到的网址存入x
+              hash [key] = x                     //将存到的网址x 再放入hash中
+              localStorage.setItem('zzz',JSON.stringify(hash))  //给localstorage放。。。。。。。。。。。。。。。。。。。。。
+              console.log(hash)
+            }                                       //给 button加一个函数  被点击了就会执行   
+            index2=index2+1 
+        } 
+        index= index+1
+       }
+       document.onkeypress = function(xzkjcnxlkcjlk){
+                                     //console.log作用是打印
+        key = (xzkjcnxlkcjlk['key'])  //key是 q w e r.....
+        website = hash[key]    //给website定义
+        //location.href = 'http://'+website
+        window.open('http://'+ website, '_blank ')
+        
+       }       //只要按了一个键，就会执行。function（）里面随意起名字。
+</script>       
+</body>
+</html>
